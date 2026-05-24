@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> AC2101 </title>
+    <style>
+        /* Modern Design System & Variables */
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --accent-color: #0366d6; /* GitHub Blue */
+            --accent-hover: #024496;
+            --border-color: #e1e4e8;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+       body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    padding: 40px 20px;
+    
+    /* ─── NEW BACKGROUND IMAGE PROPERTIES ─── */
+    background-image: url('assets/background.jpg'); /* File path or web URL goes here */
+    background-size: cover;                         /* Scales the image to fill the screen */
+    background-position: center;                    /* Centers the image perfectly */
+    background-repeat: no-repeat;                   /* Prevents the image from tiling/repeating */
+    background-attachment: fixed;                   /* Keeps background static while scrolling */
+    
+    /* Fallback background color if image fails to load */
+    background-color: #f8f9fa; 
+}
+
+       .container {
+    max-width: 800px;
+    margin: 0 auto;
+    
+    /* Adds a semi-transparent white backdrop card over the image */
+    background-color: rgba(255, 255, 255, 0.92); 
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+        /* Profile/Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto 20px auto;
+        }
+
+        /* Social / Core Connections */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 40px 0;
+        }
+
+        /* Section Title */
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Projects Grid Layout */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 600px) {
+            .projects-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Project Card Styles */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .project-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* Action Button Inside Card */
+        .project-btn {
+            display: inline-block;
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+            text-align: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .project-btn:hover {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header>
+            <h1>Tong Yen Hee</h1>
+            <p class="bio">Courses and Learning Materials</p>
+                       
+        </header>
+
+        <hr>
+
+        <!-- Dynamic Projects Section -->
+        <main>
+            <h2>🚀 Featured Accounting Courses</h2>
+            <div class="projects-grid">
+                
+                <!-- Project Card 1 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-title">Miller and Mosso (1983)</div>
+                        <p class="project-desc">Reading and learning guide, which focuses on Figures 1-3. on Miller and Mosso (1983).</p>
+                    </div>
+                    <a href="https://ayhtong.github.io/AC2101/MillerMosso1983.html" class="project-btn" target="_blank">Launch App →</a>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-title">Linsmeier (2011)</div>
+                        <p class="project-desc">Reading and learning guide on Linsmeier (2011).</p>
+                    </div>
+                    <a href="https://your-username.github.io/project-two-repo/" class="project-btn" target="_blank">Launch App →</a>
+                </div>
+                
+            </div>
+        </main>
+
+        <!-- Simple Clean Footer -->
+        <footer>
+            <p>© 2026 Tong Yen Hee (Email: ayhtong@ntu.edu.sg).</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
