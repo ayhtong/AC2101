@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounting Measurement | Miller & Mosso (1983)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --navy:       #0A1628;
+    --navy-mid:   #0D1F38;
+    --teal:       #00D4AA;
+    --teal-glow:  rgba(0, 212, 170, 0.12);
+    --amber:      #F5A623;
+    --off-white:  #F7F7F2;
+    --text-muted: rgba(247, 247, 242, 0.68);
+    --card-bg:    rgba(0, 212, 170, 0.06);
+    --card-border:rgba(0, 212, 170, 0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--off-white); overflow-x: hidden; }
+
+  /* ─── HERO ─── */
+  .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--navy); overflow: hidden; }
+  .hero-content { position: relative; z-index: 2; text-align: center; max-width: 820px; padding: 0 24px; }
+  .hero-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; }
+  .hero-title { font-size: clamp(44px, 7vw, 78px); font-weight: 800; color: var(--off-white); line-height: 1.08; margin-bottom: 24px; }
+  .hero-title span { color: var(--teal); }
+  .hero-subtitle { font-size: clamp(16px, 1.8vw, 19px); font-weight: 400; color: var(--text-muted); line-height: 1.65; max-width: 640px; margin: 0 auto 38px; }
+  .btn-primary { display: inline-block; background: var(--teal); color: var(--navy); padding: 16px 42px; border-radius: 6px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 17px; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s ease, transform 0.15s ease; }
+  .btn-primary:hover { background: #00bfa0; transform: translateY(-2px); }
+
+  .hero-shapes-back, .hero-shapes-mid { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .shape-rect { position: absolute; width: 340px; height: 200px; border: 2px solid rgba(0,212,170,0.10); border-radius: 12px; top: 12%; right: 7%; }
+  .shape-circle { position: absolute; width: 70px; height: 70px; border-radius: 50%; background: rgba(0,212,170,0.07); bottom: 22%; left: 8%; }
+  .shape-diamond { position: absolute; width: 55px; height: 55px; background: rgba(245,166,35,0.18); transform: rotate(45deg); top: 58%; right: 16%; }
+  .shape-dot { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--teal); top: 28%; left: 7%; }
+  .shape-ring { position: absolute; width: 180px; height: 180px; border-radius: 50%; border: 1px solid rgba(0,212,170,0.08); bottom: 10%; right: 22%; }
+  .shape-sq { position: absolute; width: 30px; height: 30px; background: rgba(245,166,35,0.12); transform: rotate(20deg); top: 18%; left: 18%; }
+
+  @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-16px) rotate(4deg);} }
+  @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-11px) rotate(-3deg);} }
+  @keyframes floatC { 0%,100%{transform:translateY(0) rotate(45deg);}50%{transform:translateY(-9px) rotate(50deg);} }
+  @keyframes floatD { 0%,100%{transform:translateY(0) rotate(20deg);}50%{transform:translateY(-14px) rotate(26deg);} }
+  .float-a { animation: floatA 7s ease-in-out infinite; }
+  .float-b { animation: floatB 9s ease-in-out infinite 1.5s; }
+  .float-c { animation: floatC 6s ease-in-out infinite 0.5s; }
+  .float-d { animation: floatD 8s ease-in-out infinite 2s; }
+
+  @keyframes bounce { 0%,100%{transform:translate(-50%,0);opacity:0.5;}50%{transform:translate(-50%,7px);opacity:1;} }
+  .scroll-indicator { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); animation: bounce 2s ease-in-out infinite; cursor: pointer; }
+
+  /* ─── SHARED LAYOUT ─── */
+  .section-center { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); text-align: center; margin-bottom: 14px; }
+  .section-headline { font-size: clamp(30px, 4vw, 48px); font-weight: 700; text-align: center; margin-bottom: 16px; }
+  .section-sub { font-size: 16px; color: var(--text-muted); text-align: center; max-width: 640px; margin: 0 auto 56px; line-height: 1.6; }
+
+  /* ─── FOUNDATIONS ─── */
+  .foundations-section { background: var(--navy-mid); padding: 100px 24px; }
+  .def-block { background: rgba(0,212,170,0.07); border: 1px solid rgba(0,212,170,0.20); border-radius: 14px; padding: 36px 42px; text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .def-block .label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+  .def-block p { font-size: 20px; font-weight: 500; line-height: 1.6; color: var(--off-white); }
+  .def-block em { color: var(--teal); font-style: normal; font-weight: 700; }
+  .three-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media(max-width:700px){.three-cols{grid-template-columns:1fr;}}
+  .pill-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 28px 24px; text-align: center; }
+  .pill-card .icon { font-size: 28px; margin-bottom: 12px; }
+  .pill-card h4 { font-size: 18px; font-weight: 700; color: var(--teal); margin-bottom: 8px; }
+  .pill-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+
+
+  /* ─── MATRIX (shared for all figures) ─── */
+  .fig-section { padding: 100px 24px; }
+  .fig-section.dark { background: var(--navy); }
+  .fig-section.mid  { background: var(--navy-mid); }
+
+  .matrix-wrap { max-width: 860px; margin: 0 auto 50px; }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr;
+    gap: 6px;
+  }
+  .m-blank { background: transparent; }
+  .m-header { background: #1a3356; border-radius: 8px; padding: 14px 10px; text-align: center; font-size: 13px; font-weight: 700; color: var(--off-white); line-height: 1.4; }
+  .m-row-label { background: #162d4a; border-radius: 8px; padding: 14px 10px; text-align: center; font-size: 12px; font-weight: 700; color: var(--teal); display: flex; align-items: center; justify-content: center; line-height: 1.4; }
+  .m-cell { border-radius: 8px; padding: 18px 16px; font-size: 13px; line-height: 1.5; }
+  .m-ideal { background: rgba(0,212,170,0.10); border: 2px solid rgba(0,212,170,0.45); }
+  .m-est   { background: rgba(245,166,35,0.09); border: 2px solid rgba(245,166,35,0.38); }
+  .m-worst { background: rgba(239,68,68,0.09);  border: 2px solid rgba(239,68,68,0.38); }
+  .m-cell .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+  .m-ideal .tag { color: var(--teal); }
+  .m-est   .tag { color: var(--amber); }
+  .m-worst .tag { color: #f87171; }
+  .m-cell .desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+  @media(max-width:680px){ .matrix-grid{grid-template-columns:90px 1fr 1fr;} .m-cell{padding:12px 10px;} }
+
+  /* ─── DANGERS ─── */
+  .dangers-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; max-width: 860px; margin: 0 auto; }
+  @media(max-width:700px){.dangers-grid{grid-template-columns:1fr;}}
+  .danger-card { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.20); border-radius: 10px; padding: 20px; }
+  .danger-card .num { font-size: 28px; font-weight: 800; color: rgba(239,68,68,0.35); }
+  .danger-card h5 { font-size: 14px; font-weight: 700; color: #f87171; margin-bottom: 6px; }
+  .danger-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── LEGEND ─── */
+  .legend { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  .leg-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); }
+  .leg-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .leg-ideal { background: rgba(0,212,170,0.45); }
+  .leg-est   { background: rgba(245,166,35,0.45); }
+  .leg-worst { background: rgba(239,68,68,0.45); }
+
+  /* ─── PRINCIPLES STRIP ─── */
+  .principles-section { background: var(--navy-mid); padding: 80px 24px; }
+  .principles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; max-width: 1000px; margin: 0 auto; }
+  @media(max-width:800px){.principles-grid{grid-template-columns:1fr;}}
+  .prin-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 30px 24px; }
+  .prin-card .pc-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+  .prin-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .prin-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+  /* ─── APPLY SECTION ─── */
+  .apply-section { background: var(--navy); padding: 100px 24px; }
+  .steps-list { max-width: 700px; margin: 0 auto; list-style: none; }
+  .steps-list li { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 28px; }
+  .step-num { min-width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: var(--navy); font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-text strong { font-size: 16px; display: block; margin-bottom: 4px; }
+  .step-text span { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+  .pullquote { border-left: 4px solid var(--teal); background: rgba(0,212,170,0.06); border-radius: 0 12px 12px 0; padding: 20px 28px; max-width: 700px; margin: 40px auto 0; font-style: italic; color: var(--text-muted); font-size: 15px; line-height: 1.7; }
+  .pullquote strong { color: var(--off-white); font-style: normal; }
+
+  /* ─── CLOSING ─── */
+  .closing-section { padding: 120px 24px; text-align: center; background: var(--navy); position: relative; overflow: hidden; }
+  .closing-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 500px 260px at 50% 60%, rgba(0,212,170,0.10), transparent); pointer-events: none; }
+  .closing-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+  .closing-content h2 { font-size: clamp(36px, 5vw, 58px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .closing-content h2 span { color: var(--teal); }
+  .closing-content p { font-size: 17px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.6; }
+
+  footer { background: var(--navy-mid); padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); }
+  footer strong { color: var(--teal); }
+
+  /* divider */
+  .fig-divider { max-width: 860px; margin: 0 auto 50px; border: none; border-top: 1px solid rgba(0,212,170,0.12); }
+
+  /* nav pill */
+  .nav-bar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; gap: 4px; background: rgba(10,22,40,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(0,212,170,0.15); border-radius: 50px; padding: 6px 10px; }
+  .nav-bar a { font-size: 12px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 5px 14px; border-radius: 50px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+  .nav-bar a:hover { background: rgba(0,212,170,0.12); color: var(--teal); }
+  @media(max-width:640px){ .nav-bar { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <a href="#hero">Home</a>
+  <a href="#foundations">Foundations</a>
+  <a href="#figure1">Figure 1</a>
+  <a href="#figure2">Figure 2</a>
+  <a href="#figure3">Figure 3</a>
+  <a href="#apply">Apply</a>
+</nav>
+
+<!-- ════════════════════════════════ HERO -->
+<section class="hero" id="hero">
+  <div class="hero-shapes-back">
+    <div class="shape-rect float-a"></div>
+    <div class="shape-circle float-b"></div>
+  </div>
+  <div class="hero-shapes-mid">
+    <div class="shape-diamond float-c"></div>
+    <div class="shape-dot"></div>
+    <div class="shape-ring float-b"></div>
+    <div class="shape-sq float-d"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Miller &amp; Mosso · December 1983</div>
+    <h1 class="hero-title">Why Things May Not Be<br><span>What They Seem To Be</span></h1>
+    <p class="hero-subtitle">A student guide to financial accounting measurement — exploring phenomenon, attribute, direct observation, and estimation by substitution, grounded in the IFRS Conceptual Framework and IFRS 13.</p>
+    <a href="#foundations" class="btn-primary hero-cta">Start Learning</a>
+  </div>
+  <div class="scroll-indicator" onclick="document.getElementById('foundations').scrollIntoView({behavior:'smooth'})">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00D4AA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FOUNDATIONS -->
+<section class="foundations-section" id="foundations">
+  <div class="section-center">
+    <div class="section-label foundations-label">The Core Framework</div>
+    <h2 class="section-headline foundations-headline">Start Here: What Is Measurement?</h2>
+    <p class="section-sub foundations-sub">Before any figure makes sense, you must understand the three building blocks that sit behind every number in a set of financial statements.</p>
+    <div class="def-block def-anim">
+      <div class="label">Core Definition — Miller &amp; Mosso (1983)</div>
+      <p>Measurement is the assignment of <em>numerals</em> to represent the <em>magnitude</em> of an <em>attribute</em> of a <em>phenomenon</em>.</p>
+    </div>
+    <div class="three-cols">
+      <div class="pill-card">
+        <div class="icon">🏢</div>
+        <h4>Phenomenon (P)</h4>
+        <p>The object being measured — a person, an asset, an inventory item, or a business enterprise. The IFRS Conceptual Framework calls these <em>elements</em> of financial statements.</p>
+      </div>
+      <div class="pill-card">
+        <div class="icon">🎯</div>
+        <h4>Attribute (A)</h4>
+        <p>The characteristic of interest — historical cost, fair value, or present value. The IFRS Conceptual Framework identifies multiple measurement bases for different elements.</p>
+      </div>
+      <div class="pill-card">
+        <div class="icon">🔢</div>
+        <h4>Magnitude</h4>
+        <p>The numerical result — e.g., $10,540 or 8 feet. Using numerals increases the precision of the information communicated to decision-makers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ════════════════════════════════ FIGURE 1 -->
+<section class="fig-section mid" id="figure1">
+  <div class="section-center">
+    <div class="section-label">Figure 1</div>
+    <h2 class="section-headline f1-headline">The Master Framework</h2>
+    <p class="section-sub" style="margin-bottom:32px;">Every accounting measurement falls into one of four boxes. The columns ask: real or substitute phenomenon? The rows ask: real or substitute attribute?</p>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot leg-ideal"></div>Direct Observation — Ideal</div>
+      <div class="leg-item"><div class="leg-dot leg-est"></div>Estimation — One Substitution</div>
+      <div class="leg-item"><div class="leg-dot leg-worst"></div>Double Substitution — Highest Risk</div>
+    </div>
+    <div class="matrix-wrap">
+      <div class="matrix-grid">
+        <div class="m-blank"></div>
+        <div class="m-header">Relevant Phenomenon (P₁)</div>
+        <div class="m-header">Substitute Phenomenon (Pₛ)</div>
+        <div class="m-row-label">Relevant<br>Attribute (A₁)</div>
+        <div class="m-cell m-ideal">
+          <div class="tag">✅ Direct Observation — Ideal</div>
+          Measure attribute <strong>A₁</strong> of phenomenon <strong>P₁</strong>
+          <div class="desc">The gold standard. Most reliable. Benchmark against which all estimates are judged.</div>
+        </div>
+        <div class="m-cell m-est">
+          <div class="tag">⚠️ Estimation — Substitute Phenomenon</div>
+          Measure attribute <strong>A₁</strong> of substitute <strong>P₂</strong>
+          <div class="desc">Right attribute, different object. Valid only if P₂ reliably mirrors P₁.</div>
+        </div>
+        <div class="m-row-label">Substitute<br>Attribute (Aₛ)</div>
+        <div class="m-cell m-est">
+          <div class="tag">⚠️ Estimation — Substitute Attribute</div>
+          Measure substitute <strong>A₂</strong> of phenomenon <strong>P₁</strong>
+          <div class="desc">Right object, different attribute. Valid only if A₂ closely approximates A₁.</div>
+        </div>
+        <div class="m-cell m-worst">
+          <div class="tag">🚨 Double Substitution — Worst Case</div>
+          Measure substitute <strong>A₃</strong> of substitute <strong>P₃</strong>
+          <div class="desc">Both object and attribute are proxies. Highest potential for measurement distortion.</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-bottom:28px;">
+      <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Three Dangers of Substitution</h3>
+      <p style="font-size:14px;color:var(--text-muted);">Miller &amp; Mosso warn that unchecked estimation leads to one of these pitfalls — each relevant to how IFRS standards evolve.</p>
+    </div>
+    <div class="dangers-grid">
+      <div class="danger-card">
+        <div class="num">01</div>
+        <h5>Practice Is Ambiguous</h5>
+        <p>Observing what preparers currently do cannot confirm whether the substitute or the relevant attribute is actually being measured. The IFRS CF explicitly requires going beyond current practice.</p>
+      </div>
+      <div class="danger-card">
+        <div class="num">02</div>
+        <h5>Substitutes Become Reality</h5>
+        <p>Over time, the substitute may be treated as the relevant attribute itself. This underlies debates about whether allocated cost truly represents the economic substance of an asset.</p>
+      </div>
+      <div class="danger-card">
+        <div class="num">03</div>
+        <h5>Methods Are Overextended</h5>
+        <p>A useful estimation method in one context is wrongly applied to others — a concern addressed by IFRS 13's requirement to select the most appropriate valuation technique for each asset class.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FIGURE 2 -->
+<section class="fig-section dark" id="figure2">
+  <div class="section-center">
+    <div class="section-label">Figure 2</div>
+    <h2 class="section-headline f2-headline">Past Price of an Inventory Item</h2>
+    <p class="section-sub" style="margin-bottom:32px;">
+      <strong style="color:var(--off-white);">Relevant phenomenon:</strong> The inventory item &nbsp;·&nbsp;
+      <strong style="color:var(--off-white);">Relevant attribute (A₁):</strong> The past cash purchase price paid to acquire it.<br>
+      Under <strong style="color:var(--teal);">IAS 2 Inventories</strong>, cost includes purchase price plus costs of conversion and other costs to bring the inventory to its present location and condition.
+    </p>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot leg-ideal"></div>Case 1 — Direct Observation</div>
+      <div class="leg-item"><div class="leg-dot leg-est"></div>Cases 2 &amp; 3 — One Substitution</div>
+      <div class="leg-item"><div class="leg-dot leg-worst"></div>Case 4 — Double Substitution</div>
+    </div>
+    <div class="matrix-wrap">
+      <div class="matrix-grid">
+        <div class="m-blank"></div>
+        <div class="m-header">Relevant Phenomenon (P₁)<br><span style="font-size:11px;font-weight:400;color:var(--text-muted);">The inventory item itself</span></div>
+        <div class="m-header">Substitute Phenomenon (Pₛ)<br><span style="font-size:11px;font-weight:400;color:var(--text-muted);">The inputs used to produce it</span></div>
+        <div class="m-row-label">Relevant<br>Attribute (A₁)<br><span style="font-size:10px;font-weight:400;">Past purchase price</span></div>
+        <div class="m-cell m-ideal">
+          <div class="tag">✅ Case 1 — Direct Observation</div>
+          <strong>Count the cash paid</strong>
+          <div class="desc">Item purchased directly for cash. The number of dollars paid in the transaction is directly counted. No estimation required.</div>
+        </div>
+        <div class="m-cell m-est">
+          <div class="tag">⚠️ Case 3 — Substitute Phenomenon</div>
+          <strong>Sum of component past prices</strong>
+          <div class="desc">Item assembled from purchased components. Sum the past cash prices of each component and direct labour. Substitute phenomenon = the parts, not the finished item.</div>
+        </div>
+        <div class="m-row-label">Substitute<br>Attribute (Aₛ)<br><span style="font-size:10px;font-weight:400;">Other attribute used as proxy</span></div>
+        <div class="m-cell m-est">
+          <div class="tag">⚠️ Case 2 — Substitute Attribute</div>
+          <strong>Discounted present value</strong>
+          <div class="desc">Item purchased on deferred payment. The present value of the promised future cash payment substitutes for the past cash price. The present value does not become the relevant attribute — it merely approximates it.</div>
+        </div>
+        <div class="m-cell m-worst">
+          <div class="tag">🚨 Case 4 — Double Substitution</div>
+          <strong>Allocated past input prices</strong>
+          <div class="desc">Item manufactured from materials, labour, and overhead. Allocated past input costs substitute for both the phenomenon (finished item) and the attribute (past purchase price). Highest estimation error; most likely to distort the true past cost.</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:860px;margin:0 auto;background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.25);border-radius:12px;padding:20px 24px;">
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7;">
+        <strong style="color:var(--amber);">Key insight for IAS 2:</strong> The further right and down you move in Figure 2, the greater the difference between the recorded cost and the true cash purchase price. Allocated overheads (Case 4) carry <em>no inherent relevance</em> to the past purchase price — they are only acceptable if the allocation reliably approximates what an outright cash purchase would have cost.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FIGURE 3 -->
+<section class="fig-section mid" id="figure3">
+  <div class="section-center">
+    <div class="section-label">Figure 3</div>
+    <h2 class="section-headline f3-headline">Current Price of an Inventory Item</h2>
+    <p class="section-sub" style="margin-bottom:32px;">
+      <strong style="color:var(--off-white);">Relevant phenomenon:</strong> The inventory item &nbsp;·&nbsp;
+      <strong style="color:var(--off-white);">Relevant attribute (A₁):</strong> The current <em>wholesale</em> market price — what would be paid or received today.<br>
+      Under <strong style="color:var(--teal);">IFRS 13</strong>, 'what will be received' corresponds to the exit price (fair value) in the principal or most advantageous market.
+    </p>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot leg-ideal"></div>Case 1 — Direct Observation</div>
+      <div class="leg-item"><div class="leg-dot leg-est"></div>Cases 2 &amp; 3 — One Substitution</div>
+      <div class="leg-item"><div class="leg-dot leg-worst"></div>Case 4 — Double Substitution</div>
+    </div>
+    <div class="matrix-wrap">
+      <div class="matrix-grid">
+        <div class="m-blank"></div>
+        <div class="m-header">Relevant Phenomenon (P₁)<br><span style="font-size:11px;font-weight:400;color:var(--text-muted);">The inventory item itself</span></div>
+        <div class="m-header">Substitute Phenomenon (Pₛ)<br><span style="font-size:11px;font-weight:400;color:var(--text-muted);">The inputs used to produce it</span></div>
+        <div class="m-row-label">Relevant<br>Attribute (A₁)<br><span style="font-size:10px;font-weight:400;">Current price (today)</span></div>
+        <div class="m-cell m-ideal">
+          <div class="tag">✅ Case 1 — Direct Observation</div>
+          <strong>Observe the active market price</strong>
+          <div class="desc">Item actively traded in a sufficiently liquid market. The current wholesale price is directly observable — the amount that would be received to sell or paid to buy today.</div>
+        </div>
+        <div class="m-cell m-est">
+          <div class="tag">⚠️ Case 3 — Substitute Phenomenon</div>
+          <strong>Sum of current input prices</strong>
+          <div class="desc">Manufactured item. Sum the <em>current</em> prices of component inputs (materials, labour, overhead). Same relevant attribute A₁ is sought; substitute phenomenon used because the finished item is not separately traded.</div>
+        </div>
+        <div class="m-row-label">Substitute<br>Attribute (Aₛ)<br><span style="font-size:10px;font-weight:400;">Other attribute as proxy</span></div>
+        <div class="m-cell m-est">
+          <div class="tag">⚠️ Case 2 — Substitute Attribute</div>
+          <strong>Discounted present value of future price</strong>
+          <div class="desc">Item not actively traded, but expected to sell at a known price at a future date. Discount that future price to obtain today's equivalent. Another attribute (future cash flow) is substituted to approximate the current price.</div>
+        </div>
+        <div class="m-cell m-worst">
+          <div class="tag">🚨 Case 4 — Double Substitution</div>
+          <strong>Allocated past input prices</strong>
+          <div class="desc">Use allocated <em>past</em> prices of inputs to estimate the <em>current</em> price. Both the phenomenon (inputs, not the finished item) and the attribute (past cost, not current price) are substitutes. Neither the relevant phenomenon nor the relevant attribute is used — reliability is most questionable here.</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:860px;margin:0 auto;background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.20);border-radius:12px;padding:20px 24px;">
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7;">
+        <strong style="color:var(--teal);">Comparing Figures 2 and 3:</strong> The four-case matrix structure is <em>identical</em> — only the relevant attribute changes (past price → current price). This is the article's central demonstration: the same estimation logic, and the same risks of substitution, apply regardless of the measurement basis chosen. IFRS 13's three-level hierarchy essentially codifies this logic by requiring entities to maximise the use of observable inputs (moving toward Case 1) and minimise reliance on unobservable estimates (avoiding Case 4).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ PRINCIPLES -->
+<section class="principles-section" id="principles">
+  <div class="section-center">
+    <div class="section-label">Key Principles</div>
+    <h2 class="section-headline" style="margin-bottom:48px;">What Makes a Measure Useful?</h2>
+    <div class="principles-grid">
+      <div class="prin-card">
+        <div class="pc-tag">IFRS CF 2018 · Chapter 2</div>
+        <h3>Relevance</h3>
+        <p>Information is relevant when it is capable of making a difference to users' decisions — through predictive value, confirmatory value, or both. A perfectly accurate measure of the <em>wrong</em> attribute is completely irrelevant. Materiality is an entity-specific aspect of relevance.</p>
+      </div>
+      <div class="prin-card">
+        <div class="pc-tag">IFRS CF 2018 · Chapter 2</div>
+        <h3>Faithful Representation</h3>
+        <p>To be useful, information must faithfully represent the phenomena it purports to depict. It must be complete, neutral, and free from error. This is the IFRS counterpart to Miller &amp; Mosso's reliability criterion — the measure must correspond to the actual magnitude of the selected attribute.</p>
+      </div>
+      <div class="prin-card">
+        <div class="pc-tag">IFRS 13 · Para. 61–90</div>
+        <h3>The Fair Value Hierarchy</h3>
+        <p>IFRS 13 requires entities to maximise observable inputs (Levels 1 and 2 = Cases 1 and 3 of Figure 3) and minimise unobservable inputs (Level 3 = Case 4). The standard mandates additional disclosures for Level 3 measurements precisely because double substitution carries the greatest estimation risk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ APPLY -->
+<section class="apply-section" id="apply">
+  <div class="section-center">
+    <div class="section-label">How to Apply It</div>
+    <h2 class="section-headline apply-headline">5-Step Measurement Checklist</h2>
+    <p class="section-sub" style="margin-bottom:50px;">Use this process every time you face an accounting measurement question — in exams, in practice, or in standard-setting analysis.</p>
+    <ol class="steps-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Name the relevant phenomenon (P₁)</strong>
+          <span>What exact object are you measuring? An inventory item, a financial instrument, an investment property? The IFRS CF calls these elements — assets, liabilities, equity, income, expenses.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Name the relevant attribute (A₁)</strong>
+          <span>What characteristic matters for the decision? Historical cost (IAS 2, IAS 16), fair value (IFRS 13, IFRS 9), value in use (IAS 36), or fulfilment value (IFRS 17)? The IFRS CF Chapter 6 maps each measurement base to its decision-usefulness.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Ask: can A₁ of P₁ be directly observed?</strong>
+          <span>If yes → top-left box; IFRS 13 Level 1. If no → you must estimate. Identify the most reliable substitute available.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <strong>Identify what is being substituted</strong>
+          <span>Substitute attribute only (bottom-left)? Substitute phenomenon only (top-right; IFRS 13 Level 2)? Or both (bottom-right; IFRS 13 Level 3 — requires the most extensive disclosures under IFRS 13.93)?</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-text">
+          <strong>Evaluate the reliability of the substitute</strong>
+          <span>Does the substitute reliably approximate A₁ of P₁? Can the difference be tolerated for the decision at hand? IFRS 13 requires sensitivity analysis for Level 3 precisely because the tolerable difference must be assessed and disclosed.</span>
+        </div>
+      </li>
+    </ol>
+    <div class="pullquote">
+      <strong>"It is not valid to conclude from observations of practice that past prices are relevant because they are used. Similarly, it is not valid to conclude that current prices are not relevant because they are not as widely reported."</strong><br>
+      — Miller &amp; Mosso (1983), p. 35
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ CLOSING -->
+<section class="closing-section" id="closing">
+  <div class="closing-glow"></div>
+  <div class="closing-content">
+    <h2>Measurement Is Not <span>What It Seems</span></h2>
+    <p>Practice provides ambiguous evidence. Always ask what is truly relevant, what is truly being observed — and how far the substitute strays from the truth. IFRS standards are built on exactly this discipline.</p>
+    <a href="#foundations" class="btn-primary">Review the Framework</a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FOOTER -->
+<footer>
+  Based on: <strong>Miller, P. B. W. &amp; Mosso, D. (1983).</strong> "Financial Accounting Measurement: Why Things May Not Be What They Seem To Be." <em>Financial Executive</em>, December 1983, pp. 28–35.
+  &nbsp;·&nbsp; Referenced standards: <strong>IFRS Conceptual Framework (2018)</strong> · <strong>IFRS 13 Fair Value Measurement</strong> · <strong>IAS 2 Inventories</strong>. Study guide for educational purposes only.
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Hide hero elements initially
+gsap.set([".hero-eyebrow",".hero-title",".hero-subtitle",".hero-cta",".scroll-indicator"], { opacity: 0, y: 30 });
+
+// Hero entrance
+const heroTl = gsap.timeline({ delay: 0.2 });
+heroTl
+  .to(".hero-eyebrow",     { opacity:1, y:0, duration:0.6, ease:"power3.out" })
+  .to(".hero-title",       { opacity:1, y:0, duration:1.0, ease:"power3.out" }, "-=0.3")
+  .to(".hero-subtitle",    { opacity:1, y:0, duration:0.8, ease:"power2.out" }, "-=0.5")
+  .to(".hero-cta",         { opacity:1, y:0, duration:0.7, ease:"power2.out" }, "-=0.4")
+  .to(".scroll-indicator", { opacity:1, y:0, duration:0.5, ease:"power2.out" }, "-=0.2");
+
+// Mouse parallax
+const hero = document.querySelector('.hero');
+hero.addEventListener('mousemove', (e) => {
+  const rect = hero.getBoundingClientRect();
+  const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+  const yPct = (e.clientY - rect.top)  / rect.height - 0.5;
+  gsap.to(".hero-shapes-back", { duration:2.0, x:xPct*-45, y:yPct*-22, ease:"power1.out" });
+  gsap.to(".hero-shapes-mid",  { duration:1.5, x:xPct*-22, y:yPct*-11, ease:"power1.out" });
+  gsap.to(".hero-content",     { duration:1.2, x:xPct*8,   y:yPct*5,   ease:"power1.out" });
+});
+
+// Foundations
+gsap.from([".foundations-label",".foundations-headline",".foundations-sub"], {
+  scrollTrigger:{ trigger:".foundations-section", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, stagger:0.12, ease:"power3.out"
+});
+gsap.from(".def-anim", {
+  scrollTrigger:{ trigger:".foundations-section", start:"top 60%" },
+  opacity:0, y:30, duration:0.8, ease:"power2.out", delay:0.2
+});
+gsap.from(".pill-card", {
+  scrollTrigger:{ trigger:".three-cols", start:"top 78%" },
+  opacity:0, y:40, stagger:0.12, duration:0.7, ease:"power2.out"
+});
+
+// Figure 1 matrix
+gsap.from(".f1-headline", {
+  scrollTrigger:{ trigger:"#figure1", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.set("#figure1 .m-cell, #figure1 .m-header, #figure1 .m-row-label", { opacity:0, y:20, rotateX:10, transformPerspective:800 });
+gsap.to("#figure1 .m-header, #figure1 .m-row-label, #figure1 .m-cell", {
+  scrollTrigger:{ trigger:"#figure1 .matrix-wrap", start:"top 75%", toggleActions:"play none none reverse" },
+  opacity:1, y:0, rotateX:0, duration:0.6, stagger:0.07, ease:"power2.out"
+});
+gsap.from(".danger-card", {
+  scrollTrigger:{ trigger:".dangers-grid", start:"top 78%" },
+  opacity:0, y:40, stagger:0.13, duration:0.7, ease:"power2.out"
+});
+
+// Figure 2 matrix
+gsap.from(".f2-headline", {
+  scrollTrigger:{ trigger:"#figure2", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.set("#figure2 .m-cell, #figure2 .m-header, #figure2 .m-row-label", { opacity:0, y:20, rotateX:10, transformPerspective:800 });
+gsap.to("#figure2 .m-header, #figure2 .m-row-label, #figure2 .m-cell", {
+  scrollTrigger:{ trigger:"#figure2 .matrix-wrap", start:"top 75%", toggleActions:"play none none reverse" },
+  opacity:1, y:0, rotateX:0, duration:0.6, stagger:0.07, ease:"power2.out"
+});
+
+// Figure 3 matrix
+gsap.from(".f3-headline", {
+  scrollTrigger:{ trigger:"#figure3", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.set("#figure3 .m-cell, #figure3 .m-header, #figure3 .m-row-label", { opacity:0, y:20, rotateX:10, transformPerspective:800 });
+gsap.to("#figure3 .m-header, #figure3 .m-row-label, #figure3 .m-cell", {
+  scrollTrigger:{ trigger:"#figure3 .matrix-wrap", start:"top 75%", toggleActions:"play none none reverse" },
+  opacity:1, y:0, rotateX:0, duration:0.6, stagger:0.07, ease:"power2.out"
+});
+
+// Principles
+gsap.from(".prin-card", {
+  scrollTrigger:{ trigger:".principles-grid", start:"top 75%" },
+  opacity:0, y:40, stagger:0.12, duration:0.7, ease:"power2.out"
+});
+
+// Apply steps
+gsap.from(".apply-headline", {
+  scrollTrigger:{ trigger:".apply-section", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.from(".steps-list li", {
+  scrollTrigger:{ trigger:".steps-list", start:"top 75%" },
+  opacity:0, x:-30, stagger:0.14, duration:0.65, ease:"power2.out"
+});
+gsap.from(".pullquote", {
+  scrollTrigger:{ trigger:".pullquote", start:"top 80%" },
+  opacity:0, x:-20, duration:0.8, ease:"power2.out"
+});
+
+// Closing
+gsap.from(".closing-content", {
+  scrollTrigger:{ trigger:".closing-section", start:"top 72%" },
+  opacity:0, y:45, duration:1.0, ease:"power3.out"
+});
+</script>
+</body>
+</html>
