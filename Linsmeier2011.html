@@ -173,24 +173,7 @@
   .dual-row p{ font-size:13.5px; color:var(--text-muted); line-height:1.7; }
   .dual-row p strong{ color:var(--off-white); font-weight:600; }
 
-  /* before class */
-  .before-section{ background:var(--navy-mid); padding:80px 24px; }
-  .before-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:900px; margin:0 auto; }
-  @media(max-width:700px){ .before-grid{ grid-template-columns:1fr; } }
-  .bc-card{ background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:28px 22px; }
-  .bc-card .bc-num{ font-size:32px; font-weight:800; color:rgba(0,212,170,0.30); margin-bottom:8px; }
-  .bc-card p{ font-size:13.5px; color:var(--text-muted); line-height:1.7; }
-  .bc-card p strong{ color:var(--off-white); font-weight:600; }
-
-  /* closing */
-  .closing-section{ padding:120px 24px; text-align:center; background:var(--navy); position:relative; overflow:hidden; }
-  .closing-glow{ position:absolute; inset:0; background:radial-gradient(ellipse 500px 260px at 50% 60%,rgba(0,212,170,0.10),transparent); pointer-events:none; }
-  .closing-content{ position:relative; z-index:2; max-width:700px; margin:0 auto; }
-  .closing-content h2{ font-size:clamp(34px,5vw,56px); font-weight:800; line-height:1.1; margin-bottom:20px; }
-  .closing-content h2 span{ color:var(--teal); }
-  .closing-content p{ font-size:17px; color:var(--text-muted); margin-bottom:40px; line-height:1.65; }
-
-  /* footer */
+   /* footer */
   footer{ background:var(--navy-mid); padding:32px 24px; text-align:center; font-size:13px; color:var(--text-muted); border-top:1px solid rgba(255,255,255,0.06); }
   footer strong{ color:var(--teal); }
 
@@ -208,7 +191,7 @@
   <a href="#point1">Three Crises</a>
   <a href="#point2">Research Evidence</a>
   <a href="#point3">Proposed Solution</a>
-  <a href="#before-class">Before Class</a>
+ 
 </nav>
 
 <!-- ══════════════════════ HERO -->
@@ -239,7 +222,7 @@
   <div class="section-center">
     <div class="section-label definitions-label">Before You Read</div>
     <h2 class="section-headline definitions-headline">Keep These Definitions in Front of You</h2>
-    <p class="section-sub definitions-sub">The article's entire argument turns on two IFRS qualitative characteristics. Make sure you are clear on both before reading a single page.</p>
+    <p class="section-sub definitions-sub">The article's argument turns on three IFRS qualitative characteristics. Make sure you are clear on them before reading a single page.</p>
     <div class="def-block def-anim">
       <div class="label">The Guiding Question</div>
       <p>Between <em>amortised cost</em> and <em>fair value</em>, which better satisfies the IFRS Framework's two fundamental qualitative characteristics — <em>relevance</em> and <em>faithful representation</em>?</p>
@@ -282,13 +265,13 @@
         <div class="c-num">02</div>
         <h5>Japan's Lost Decade</h5>
         <span class="risk-tag">Credit Risk</span>
-        <p>Real estate values collapsed but banks were allowed to delay recognising loan losses. The result: "zombie banks" that looked solvent on paper but were economically hollow — kept alive by government capital and continuing to lend badly. Estimated cost: up to 100 trillion yen, 20% of GDP.</p>
+        <p>Real estate values collapsed but banks were allowed to delay recognising loan losses. The result: "zombie banks" that looked solvent on paper but were economically hollow — kept alive by government capital and continuing to lend badly. Estimated cost to the economy is up to 100 trillion yen, 20% of GDP.</p>
       </div>
       <div class="crisis-card us">
         <div class="c-num">03</div>
         <h5>2008 U.S. Financial Crisis</h5>
         <span class="risk-tag">Credit + Interest Rate Risk</span>
-        <p>120 failed banks met "adequately capitalised" standards just four to six months before collapse. Capital ratios only slipped into "undercapitalised" in the single quarter before failure — too late for anyone to act. Post-mortem: actual losses were more than 6× what banks had reported.</p>
+        <p>120 failed banks continue to meet "adequately capitalised" standards just four to six months before collapse. Capital ratios only slipped into problematic "undercapitalised" category in the single quarter before failure — too late for anyone to act. Actual losses that resulted were more than 6 times what banks had reported.</p>
       </div>
     </div>
 
@@ -333,22 +316,22 @@
   <div class="section-center">
     <div class="section-label">Research Evidence · Pages 414–415 including Footnote 3</div>
     <h2 class="section-headline p2-headline">The Research Evidence</h2>
-    <p class="section-sub">Two academic studies make the empirical case for fair value. Read each one asking: what exactly is being measured, and what does the finding tell us about the IFRS qualitative characteristics?</p>
+    <p class="section-sub">Two academic studies make the empirical case for fair value.</p>
 
     <div class="findings-grid">
       <div class="finding-card">
         <div class="f-tag">Blankespoor et al. (2010)</div>
         <h4>Fair Value and Credit Risk</h4>
-        <div class="stat">6×</div>
-        <div class="stat-label" style="margin-bottom:14px">more correlated with the TED spread than any other accounting model</div>
-        <p>Bank leverage under full fair value tracked real-time credit risk signals far more closely than current GAAP, historic cost, or regulatory capital. Notably, Tier 1 regulatory capital — the measure regulators rely on most — was the <em>least</em> correlated of all.</p>
+        <div class="stat">6 times more</div>
+        <div class="stat-label" style="margin-bottom:14px">correlated with the TED spread than any other accounting model</div>
+        <p>Bank leverage measured using full fair value measurement tracked real-time credit risk signals far more closely than using measures based on historical costs, current accounting rules, or regulatory capital requirements. capital. Notably, Tier 1 regulatory capital, which regulators rely on most, was the <em>least</em> correlated of all.</p>
       </div>
       <div class="finding-card">
         <div class="f-tag">Hodder et al. (2006)</div>
         <h4>Fair Value and Interest Rate Risk</h4>
         <div class="stat" style="font-size:28px;margin-bottom:4px">Significantly<br>more informative</div>
         <div class="stat-label" style="margin-bottom:14px">about interest rate risk than current GAAP measures</div>
-        <p>Income volatility under full fair value better captured a bank's exposure to changing interest rates — the dominant risk in the S&L crisis — than measures produced under current U.S. reporting standards.</p>
+        <p>Income volatility under full fair value measurement better captured a bank's exposure to changing interest rates (i.e., interest rate risk) than measures produced under current reporting standards.</p>
       </div>
     </div>
 
@@ -368,11 +351,11 @@
     <div class="dq-grid">
       <div class="dq-card">
         <div class="dq-tag">💬 On Relevance</div>
-        <p>The evidence shows fair value tracks credit and interest rate risk far more closely than amortised cost. But consider: the TED spread — a market signal — was already warning about banking sector problems in 2007, well before any financial statements picked it up. If the market already knew, what does fair value accounting actually add? <strong>Who are the users who benefit most from having this information in financial statements rather than just in market signals?</strong></p>
+        <p>The evidence shows fair value tracks credit and interest rate risk far more closely than amortised cost. However, note that the TED spread, which is a market signal, was already warning about banking sector problems in 2007, well before any financial statements picked it up. If the market already knew the problem, will more fair value accounting actually provide any additional information? <strong>Are there users who may still benefit from having fair value information in financial statements rather?</strong></p>
       </div>
       <div class="dq-card">
         <div class="dq-tag">💬 On Faithful Representation</div>
-        <p>Fair value sounds like a more honest picture of what assets are worth today. But unlike traded shares, <strong>most bank loans do not have a market price you can simply look up</strong>. Banks would need to estimate fair value using their own assumptions and models. Does that make you more or less confident that the resulting numbers are a complete, neutral, and accurate representation of reality? Could this open the door to a different kind of bias?</p>
+        <p>Fair value sounds like a more relevant measure of what assets are worth today. But unlike traded shares, <strong>most bank loans do not have an actively traded market price</strong>. Banks would need to </strong>estimate </strong>fair value using their own assumptions and models. As such, would the resulting measures be complete, neutral, and free from error?</p>
       </div>
     </div>
   </div>
@@ -383,7 +366,7 @@
   <div class="section-center">
     <div class="section-label">Proposed Solution · Page 415</div>
     <h2 class="section-headline p3-headline">The Trade-off and the Proposed Solution</h2>
-    <p class="section-sub">The tension is now clear. The IFRS Framework offers no easy way out — both characteristics are fundamental and neither can be dropped in favour of the other.</p>
+    <p class="section-sub"> Relevance versus faithful representation. </p>
 
     <div class="compare-wrap">
       <div class="compare-col ac">
@@ -444,76 +427,36 @@
 
     <div class="passage-block">
       <div class="p-label">Passage to mark — the proposed solution</div>
-      <blockquote>"The difference between amortised cost and fair value captures the expected impact of current economic conditions on existing financial instruments."</blockquote>
-      <div class="p-ref">Linsmeier (2011), p. 415 — the key insight behind the dual presentation proposal</div>
+      <blockquote>"This dual presentation in financial statements — which some investors have asked for — would ensure that both relevant measures are given adequate attention by banks and their auditors."</blockquote>
+      <div class="p-ref">Linsmeier (2011), p. 415</div>
     </div>
 
     <div class="dual-box">
-      <div class="db-label">The Dual Presentation — what each column gives users</div>
+      <div class="db-label">The Dual Presentation — what each measure gives users</div>
       <div class="dual-rows">
         <div class="dual-row">
           <span class="dr-tag rel">Relevance</span>
-          <p>The <strong>fair value column</strong> shows current market-based risk exposure and gives early warning of credit and interest rate deterioration as it happens — not months later.</p>
+          <p>The <strong>fair value measures</strong> shows current market-based risk exposure and gives early warning of credit and interest rate deterioration as it happens — not months later.</p>
         </div>
         <div class="dual-row">
           <span class="dr-tag frep">Faithful Rep.</span>
-          <p>The <strong>amortised cost column</strong> is grounded in a verifiable transaction price and shows expected contractual cash flows — satisfying the completeness and neutrality requirements.</p>
+          <p>The <strong>amortised cost measures </strong> is grounded in a verifiable transaction price and shows expected contractual cash flows — satisfying the completeness and neutrality requirements.</p>
         </div>
         <div class="dual-row">
           <span class="dr-tag gap">The Gap</span>
-          <p>The <strong>difference between the two figures</strong> captures how far current economic conditions have moved from the original terms of the instrument — a third piece of information neither measure alone provides.</p>
+          <p>The <strong>difference between the two measures </strong> captures how far current economic conditions have moved from the original terms of the instrument — a third piece of information neither measure alone provides.</p>
         </div>
       </div>
     </div>
-
-    <div style="max-width:900px;margin:0 auto 20px;display:flex;align-items:center;gap:14px;">
-      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--amber);">Reflective Questions</span>
-      <div style="flex:1;height:1px;background:rgba(245,166,35,0.20);"></div>
-    </div>
-    <div class="dq-grid" style="max-width:900px;margin:0 auto;">
-      <div class="dq-card" style="grid-column:1/-1;">
-        <div class="dq-tag">💬 Discussion Question — Bringing It All Together</div>
-        <p>The IFRS Framework says both relevance and faithful representation are fundamental — <strong>you cannot choose one and ignore the other.</strong> The author's solution is to show both numbers and let users work with them together. Does that feel like a genuine solution to you, or more like a way of avoiding a difficult choice? <strong>Are there costs to measuring and providing both sets of numbers — and if so, do those costs outweigh the benefits of giving users both pieces of information?</strong></p>
-      </div>
-    </div>
-  </div>
 </section>
-
-<!-- ══════════════════════ BEFORE CLASS -->
-<section class="before-section" id="before-class">
-  <div class="section-center">
-    <div class="section-label">Before Class</div>
-    <h2 class="section-headline">Three Things to Know Without Your Notes</h2>
-    <p class="section-sub" style="margin-bottom:40px;">If you can explain these clearly in your own words, you are ready for the discussion.</p>
-    <div class="before-grid">
-      <div class="bc-card">
-        <div class="bc-num">01</div>
-        <p>Why amortised cost <strong>failed to give timely warning</strong> across all three crises — and which IFRS characteristics this failure relates to.</p>
-      </div>
-      <div class="bc-card">
-        <div class="bc-num">02</div>
-        <p>What the Blankespoor finding means <strong>in plain English</strong> — and one reason it might not be as conclusive as it first appears.</p>
-      </div>
-      <div class="bc-card">
-        <div class="bc-num">03</div>
-        <p>Why the author believes <strong>showing both figures</strong> is more useful than showing just one — and what the gap between them tells users.</p>
-      </div>
-    </div>
+ 
     <div class="term-note" style="margin-top:40px;">
       <strong>Terminology note.</strong> This article uses "reliability" where current IFRS uses "faithful representation." They are related but not identical — faithful representation is broader, additionally requiring completeness and neutrality. Translate accordingly when reading. This distinction comes up regularly in examinations.
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════ CLOSING -->
-<section class="closing-section" id="closing">
-  <div class="closing-glow"></div>
-  <div class="closing-content">
-    <h2>Does Accounting Tell Us <span>What We Need to Know?</span></h2>
-    <p>Three crises. The same accounting failure each time. Come to class ready to say whether a different measurement basis would have changed the outcome — and how you would justify that answer within the IFRS Framework.</p>
-    <a href="#definitions" class="btn-primary">Review the Framework</a>
-  </div>
-</section>
+
 
 <!-- ══════════════════════ FOOTER -->
 <footer>
