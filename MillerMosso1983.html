@@ -257,7 +257,7 @@
           <div class="desc">Right object, different attribute. Valid only if A₂ closely approximates A₁.</div>
         </div>
         <div class="m-cell m-worst">
-          <div class="tag">🚨 Double Substitution — Worst Case</div>
+          <div class="tag">🚨 Double Substitution</div>
           Measure substitute <strong>A₃</strong> of substitute <strong>P₃</strong>
           <div class="desc">Both object and attribute are proxies. Highest potential for measurement distortion.</div>
         </div>
@@ -276,7 +276,7 @@
       <div class="danger-card">
         <div class="num">02</div>
         <h5>Substitutes Become Reality</h5>
-        <p>Over time, the substitute may be treated as the relevant attribute itself. This underlies debates about whether allocated cost truly represents the economic substance of an asset.</p>
+        <p>Over time, the substitute may be treated as the relevant attribute itself. This underlies debates about whether historical cost truly represents the economic substance of an asset.</p>
       </div>
       <div class="danger-card">
         <div class="num">03</div>
@@ -295,8 +295,7 @@
     <p class="section-sub" style="margin-bottom:32px;">
       <strong style="color:var(--off-white);">Relevant phenomenon (P₁):</strong> The inventory item. &nbsp;&nbsp;<br>
       <strong style="color:var(--off-white);">Relevant attribute (A₁):</strong> The past cash purchase price paid to acquire it.<br>
-      Under <strong style="color:var(--teal);">IAS 2 Inventories</strong>, cost includes purchase price plus costs of conversion and other costs to bring the inventory to its present location and condition.
-    </p>
+     </p>
     <div class="legend">
       <div class="leg-item"><div class="leg-dot leg-ideal"></div>Case 1 — Direct Observation</div>
       <div class="leg-item"><div class="leg-dot leg-est"></div>Cases 2 &amp; 3 — One Substitution</div>
@@ -311,12 +310,12 @@
         <div class="m-cell m-ideal">
           <div class="tag">✅ Case 1 — Direct Observation</div>
           <strong>Count the cash paid</strong>
-          <div class="desc">Item purchased directly for cash. The number of dollars paid in the transaction is directly counted. No estimation required.</div>
+          <div class="desc"> The number of dollars paid in the purchase transaction for the exact item is directly counted. No estimation required.</div>
         </div>
         <div class="m-cell m-est">
           <div class="tag">⚠️ Case 3 — Substitute Phenomenon</div>
-          <strong>Sum of component past prices</strong>
-          <div class="desc">Item assembled from purchased components. Sum the past cash prices of each component and direct labour. Substitute phenomenon = the parts, not the finished item.</div>
+          <strong>Sum of past prices of item's components</strong>
+          <div class="desc">Item assembled from purchased components. Sum the past cash prices of each component and direct labour. Substitute phenomenon = the component parts and labour, not the finished item.</div>
         </div>
         <div class="m-row-label">Substitute<br>Attribute (Aₛ)<br><span style="font-size:10px;font-weight:400;">Other attribute used as proxy</span></div>
         <div class="m-cell m-est">
@@ -326,9 +325,9 @@
         </div>
         <div class="m-cell m-worst">
           <div class="tag">🚨 Case 4 — Double Substitution</div>
-          <strong>Allocated past input prices</strong>
-          <div class="desc">Item manufactured from materials, labour, and overhead. Allocated past input costs substitute for both the phenomenon (finished item) and the attribute (past purchase price). Highest estimation error; most likely to distort the true past cost.</div>
-        </div>
+          <strong>Allocated past input costs</strong>
+          <div class="desc">Based on inputs but assume no past prices. Use allocated costs of inputs such as materials, labour, and overhead. Allocated past input costs substitute for both the phenomenon (finished item) and the attribute (past purchase price). Highest estimation error; most likely to distort the true past cost.</div>
+       </div>
       </div>
     </div>
     <div style="max-width:860px;margin:0 auto;background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.25);border-radius:12px;padding:20px 24px;">
@@ -369,18 +368,18 @@
         <div class="m-cell m-est">
           <div class="tag">⚠️ Case 3 — Substitute Phenomenon</div>
           <strong>Sum of current input prices</strong>
-          <div class="desc">Manufactured item. Sum the <em>current</em> prices of component inputs (materials, labour, overhead). Same relevant attribute A₁ is sought; substitute phenomenon used because the finished item is not separately traded.</div>
+          <div class="desc"> Exact item not traded. Sum the <em>current</em> prices of component parts. Same relevant attribute A₁ is sought; substitute phenomenon baased on component parts used because the finished item is not separately traded.</div>
         </div>
         <div class="m-row-label">Substitute<br>Attribute (Aₛ)<br><span style="font-size:10px;font-weight:400;"> Other attribute as proxy</span></div>
         <div class="m-cell m-est">
           <div class="tag">⚠️ Case 2 — Substitute Attribute</div>
           <strong>Discounted present value of future price</strong>
-          <div class="desc">Item not actively traded, but expected to sell at a known price at a future date. Discount that future price to obtain today's equivalent. Another attribute (future cash flow) is substituted to approximate the current price.</div>
+          <div class="desc">Item not actively traded, but expected to sell at a known price at a future date. Discount that future price to obtain today's equivalent. Another attribute (present value of future cash flow) is substituted to approximate the current price.</div>
         </div>
         <div class="m-cell m-worst">
           <div class="tag">🚨 Case 4 — Double Substitution</div>
-          <strong>Allocated past input prices</strong>
-          <div class="desc">Use allocated <em>past</em> prices of inputs to estimate the <em>current</em> price. Both the phenomenon (inputs, not the finished item) and the attribute (past cost, not current price) are substitutes. Neither the relevant phenomenon nor the relevant attribute is used — reliability is most questionable here.</div>
+          <strong>Allocated past input cost</strong>
+          <div class="desc"> Use allocated <em>past</em> costs of inputs to estimate the <em>current</em> price. Both the phenomenon (inputs, not the finished item) and the attribute (past cost, not current price) are substitutes. Neither the relevant phenomenon nor the relevant attribute is used — reliability is most questionable here.</div>
         </div>
       </div>
     </div>
@@ -411,7 +410,7 @@
       <div class="prin-card">
         <div class="pc-tag">IFRS 13 · Para. 61–90</div>
         <h3>The Link to Fair Value Measurement and Hierarchy</h3>
-        <p>IFRS 13 requires entities to maximise observable inputs and minimise unobservable inputs and indicates three levels of fair value measurement hierarchy (i.e., Levels 1 to 3). Only Case 1 is likely to be a Level 1 measure. 	   Cases 2 to 4 are Level 2 or 3 measures as estimation using a substitute phenomenon and/or a substitute attribute is used. IFRS 13 mandates additional disclosures for a Level 3 measure precisely because substitution carries 	   greater estimation risk.</p>
+        <p>IFRS 13 requires entities to maximise observable inputs and minimise unobservable inputs and indicates three levels of fair value measurement hierarchy (i.e., Levels 1 to 3). Only Case 1 is likely to be a Level 1 measure. Cases 2 to 4 are Level 2 or 3 measures as estimation using a substitute phenomenon and/or a substitute attribute is used. IFRS 13 mandates additional disclosures for a Level 3 measure precisely because substitution carries greater estimation risk.</p>
       </div>
     </div>
   </div>
@@ -448,7 +447,7 @@
       <li>
         <div class="step-num">4</div>
         <div class="step-text">
-          <strong>Identify what is being substituted</strong>
+          <strong>Identify what are substituted</strong>
           <span>Substitute attribute only (Case 2)? Substitute phenomenon only (Case 3)? Or both (Case 4)?</span>
         </div>
       </li>
@@ -472,7 +471,7 @@
   <div class="closing-glow"></div>
   <div class="closing-content">
     <h2>Measurement Is Not <span>What It Seems</span></h2>
-    <p>Practice provides ambiguous evidence. Always ask what is truly relevant, what is truly being observed — and how far the substitute strays from the truth. IFRS standards are built on exactly this discipline.</p>
+    <p>Current accounting practice may provide ambiguous evidence. Always ask what is truly relevant, what is truly being measured — and how far the substitute strays from the truth. Measurment issues in IFRS standards are centered on this discipline.</p>
     <a href="#foundations" class="btn-primary">Review the Framework</a>
   </div>
 </section>
