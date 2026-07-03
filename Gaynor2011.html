@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Counterintuitive Gain | Gaynor, McDaniel & Yohn (2011)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --navy:        #0A1628;
+    --navy-mid:    #0D1F38;
+    --teal:        #00D4AA;
+    --teal-glow:   rgba(0,212,170,0.12);
+    --amber:       #F5A623;
+    --red:         #f87171;
+    --off-white:   #F7F7F2;
+    --text-muted:  rgba(247,247,242,0.68);
+    --card-bg:     rgba(0,212,170,0.06);
+    --card-border: rgba(0,212,170,0.15);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Inter',sans-serif; background:var(--navy); color:var(--off-white); overflow-x:hidden; }
+
+  /* ── NAV ── */
+  .nav-bar{ position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:100; display:flex; gap:4px; background:rgba(10,22,40,0.85); backdrop-filter:blur(12px); border:1px solid rgba(0,212,170,0.15); border-radius:50px; padding:6px 10px; }
+  .nav-bar a{ font-size:12px; font-weight:600; color:var(--text-muted); text-decoration:none; padding:5px 14px; border-radius:50px; transition:background 0.2s,color 0.2s; white-space:nowrap; }
+  .nav-bar a:hover{ background:rgba(0,212,170,0.12); color:var(--teal); }
+  @media(max-width:640px){ .nav-bar{ display:none; } }
+
+  /* ── HERO ── */
+  .hero{ position:relative; height:100vh; display:flex; align-items:center; justify-content:center; background:var(--navy); overflow:hidden; }
+  .hero-content{ position:relative; z-index:2; text-align:center; max-width:840px; padding:0 24px; }
+  .hero-eyebrow{ font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:20px; }
+  .hero-title{ font-size:clamp(40px,6.6vw,72px); font-weight:800; color:var(--off-white); line-height:1.08; margin-bottom:24px; }
+  .hero-title span{ color:var(--teal); }
+  .hero-subtitle{ font-size:clamp(15px,1.8vw,18px); font-weight:400; color:var(--text-muted); line-height:1.65; max-width:660px; margin:0 auto 38px; }
+  .btn-primary{ display:inline-block; background:var(--teal); color:var(--navy); padding:16px 42px; border-radius:6px; font-family:'Inter',sans-serif; font-weight:700; font-size:17px; border:none; cursor:pointer; text-decoration:none; transition:background 0.2s,transform 0.15s; }
+  .btn-primary:hover{ background:#00bfa0; transform:translateY(-2px); }
+
+  .hero-shapes-back,.hero-shapes-mid{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .shape-rect{ position:absolute; width:340px; height:200px; border:2px solid rgba(0,212,170,0.10); border-radius:12px; top:12%; right:7%; }
+  .shape-circle{ position:absolute; width:70px; height:70px; border-radius:50%; background:rgba(0,212,170,0.07); bottom:22%; left:8%; }
+  .shape-diamond{ position:absolute; width:55px; height:55px; background:rgba(245,166,35,0.18); transform:rotate(45deg); top:58%; right:16%; }
+  .shape-dot{ position:absolute; width:10px; height:10px; border-radius:50%; background:var(--teal); top:28%; left:7%; }
+  .shape-ring{ position:absolute; width:180px; height:180px; border-radius:50%; border:1px solid rgba(0,212,170,0.08); bottom:10%; right:22%; }
+  .shape-sq{ position:absolute; width:30px; height:30px; background:rgba(245,166,35,0.12); transform:rotate(20deg); top:18%; left:18%; }
+
+  @keyframes floatA{ 0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-16px) rotate(4deg);} }
+  @keyframes floatB{ 0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-11px) rotate(-3deg);} }
+  @keyframes floatC{ 0%,100%{transform:translateY(0) rotate(45deg);}50%{transform:translateY(-9px) rotate(50deg);} }
+  @keyframes floatD{ 0%,100%{transform:translateY(0) rotate(20deg);}50%{transform:translateY(-14px) rotate(26deg);} }
+  .float-a{ animation:floatA 7s ease-in-out infinite; }
+  .float-b{ animation:floatB 9s ease-in-out infinite 1.5s; }
+  .float-c{ animation:floatC 6s ease-in-out infinite 0.5s; }
+  .float-d{ animation:floatD 8s ease-in-out infinite 2s; }
+
+  @keyframes bounce{ 0%,100%{transform:translate(-50%,0);opacity:0.5;}50%{transform:translate(-50%,7px);opacity:1;} }
+  .scroll-indicator{ position:absolute; bottom:32px; left:50%; transform:translateX(-50%); animation:bounce 2s ease-in-out infinite; cursor:pointer; }
+
+  /* ── SHARED ── */
+  .section-center{ max-width:1100px; margin:0 auto; }
+  .section-label{ font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); text-align:center; margin-bottom:14px; }
+  .section-headline{ font-size:clamp(28px,4vw,46px); font-weight:700; text-align:center; margin-bottom:16px; }
+  .section-sub{ font-size:16px; color:var(--text-muted); text-align:center; max-width:660px; margin:0 auto 52px; line-height:1.6; }
+
+  /* ── SIGNATURE: THE FLIP MECHANIC ── */
+  .mechanic-section{ background:var(--navy-mid); padding:100px 24px; }
+  .mechanic-wrap{ max-width:820px; margin:0 auto 40px; }
+  .flip-toggle{ display:flex; justify-content:center; gap:10px; margin-bottom:36px; }
+  .flip-btn{ font-family:'Inter',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:11px 24px; border-radius:50px; border:1px solid rgba(0,212,170,0.25); background:transparent; color:var(--text-muted); cursor:pointer; transition:all 0.25s; }
+  .flip-btn.active{ background:var(--teal); color:var(--navy); border-color:var(--teal); }
+  .flip-card{ background:rgba(255,255,255,0.02); border:1px solid rgba(0,212,170,0.18); border-radius:16px; padding:44px 40px; position:relative; overflow:hidden; }
+  .flip-row{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:18px; margin-bottom:28px; }
+  @media(max-width:600px){ .flip-row{ grid-template-columns:1fr; text-align:center; gap:10px; } }
+  .flip-cell{ text-align:center; }
+  .flip-cell .fc-label{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+  .flip-cell .fc-value{ font-size:22px; font-weight:800; transition:color 0.3s; }
+  .flip-arrow{ font-size:26px; color:rgba(0,212,170,0.35); }
+  .flip-explain{ text-align:center; font-size:14.5px; color:var(--text-muted); line-height:1.7; padding-top:20px; border-top:1px solid rgba(0,212,170,0.12); transition:opacity 0.3s; }
+  .flip-explain strong{ color:var(--off-white); font-weight:600; }
+  .worse .fc-value.credit{ color:var(--red); }
+  .worse .fc-value.income{ color:var(--teal); }
+  .better .fc-value.credit{ color:var(--teal); }
+  .better .fc-value.income{ color:var(--red); }
+  .intuition-tag{ display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:5px 14px; border-radius:20px; background:rgba(245,166,35,0.12); color:var(--amber); margin-top:16px; }
+
+  /* pill cards */
+  .three-cols{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media(max-width:700px){ .three-cols{ grid-template-columns:1fr; } }
+  .pill-card{ background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:28px 22px; text-align:center; }
+  .pill-card .icon{ font-size:28px; margin-bottom:12px; }
+  .pill-card h4{ font-size:17px; font-weight:700; color:var(--teal); margin-bottom:8px; }
+  .pill-card p{ font-size:13.5px; color:var(--text-muted); line-height:1.65; }
+
+  /* ── POINT SECTIONS ── */
+  .point-section{ padding:100px 24px; }
+  .point-section.dark{ background:var(--navy); }
+  .point-section.mid{ background:var(--navy-mid); }
+
+  /* stakes stat grid */
+  .stat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:900px; margin:0 auto 48px; }
+  @media(max-width:700px){ .stat-grid{ grid-template-columns:1fr; } }
+  .stat-card{ background:rgba(0,212,170,0.06); border:1px solid rgba(0,212,170,0.20); border-radius:12px; padding:26px 22px; text-align:center; }
+  .stat-card .sv{ font-size:34px; font-weight:800; color:var(--teal); margin-bottom:6px; line-height:1; }
+  .stat-card .sl{ font-size:12px; font-weight:600; letter-spacing:0.04em; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px; }
+  .stat-card p{ font-size:13px; color:var(--text-muted); line-height:1.6; }
+
+  /* research questions */
+  .rq-list{ max-width:820px; margin:0 auto 48px; display:flex; flex-direction:column; gap:14px; }
+  .rq-item{ display:flex; gap:18px; align-items:flex-start; background:rgba(0,212,170,0.05); border:1px solid rgba(0,212,170,0.15); border-radius:10px; padding:18px 22px; }
+  .rq-num{ min-width:34px; height:34px; border-radius:50%; background:rgba(0,212,170,0.15); color:var(--teal); font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .rq-item p{ font-size:14px; color:var(--text-muted); line-height:1.65; padding-top:5px; }
+  .rq-item p strong{ color:var(--off-white); font-weight:600; }
+
+  /* passage */
+  .passage-block{ max-width:900px; margin:0 auto 48px; border-left:4px solid var(--teal); background:rgba(0,212,170,0.06); border-radius:0 12px 12px 0; padding:20px 28px; }
+  .passage-block .p-label{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
+  .passage-block blockquote{ font-style:italic; color:var(--text-muted); font-size:15px; line-height:1.75; }
+  .passage-block .p-ref{ font-size:12px; color:rgba(0,212,170,0.55); margin-top:8px; }
+
+  /* discussion questions */
+  .dq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:900px; margin:0 auto; }
+  @media(max-width:680px){ .dq-grid{ grid-template-columns:1fr; } }
+  .dq-card{ background:rgba(245,166,35,0.06); border:1px solid rgba(245,166,35,0.20); border-radius:12px; padding:24px 22px; }
+  .dq-card .dq-tag{ font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; }
+  .dq-card p{ font-size:14px; color:var(--text-muted); line-height:1.75; }
+  .dq-card p strong{ color:var(--off-white); font-weight:600; }
+
+  /* hypothesis chain */
+  .chain-wrap{ max-width:920px; margin:0 auto 20px; display:flex; flex-direction:column; gap:0; }
+  .chain-step{ display:grid; grid-template-columns:64px 1fr; gap:20px; padding:22px 0; position:relative; }
+  .chain-step:not(:last-child)::after{ content:''; position:absolute; left:31px; bottom:-2px; width:2px; height:22px; background:rgba(0,212,170,0.25); }
+  .chain-badge{ width:64px; height:64px; border-radius:50%; background:var(--card-bg); border:2px solid var(--card-border); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; color:var(--teal); flex-shrink:0; }
+  .chain-text h4{ font-size:16px; font-weight:700; margin-bottom:6px; color:var(--off-white); }
+  .chain-text p{ font-size:14px; color:var(--text-muted); line-height:1.7; }
+  .chain-text p strong{ color:var(--off-white); font-weight:600; }
+
+  /* subsection cards for motivation build */
+  .sub-cards{ max-width:900px; margin:0 auto 56px; display:flex; flex-direction:column; gap:16px; }
+  .sub-card{ background:rgba(0,212,170,0.05); border:1px solid rgba(0,212,170,0.15); border-radius:12px; padding:24px 28px; }
+  .sub-card .sc-eyebrow{ font-size:11px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--teal); margin-bottom:10px; }
+  .sub-card h4{ font-size:16px; font-weight:700; margin-bottom:8px; }
+  .sub-card p{ font-size:14px; color:var(--text-muted); line-height:1.7; margin-bottom:8px; }
+  .sub-card p:last-child{ margin-bottom:0; }
+  .sub-card p strong{ color:var(--off-white); font-weight:600; }
+
+  /* asymmetry bars: before/after comparison by condition */
+  .asym-wrap{ max-width:900px; margin:0 auto 48px; background:rgba(0,212,170,0.05); border:1px solid rgba(0,212,170,0.15); border-radius:14px; padding:36px 36px 30px; }
+  .asym-label{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); text-align:center; margin-bottom:6px; }
+  .asym-sublabel{ font-size:13px; color:var(--text-muted); text-align:center; margin-bottom:30px; }
+  .asym-cols{ display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  @media(max-width:640px){ .asym-cols{ grid-template-columns:1fr; gap:26px; } }
+  .asym-col-head{ font-size:14px; font-weight:700; color:var(--off-white); text-align:center; margin-bottom:18px; }
+  .asym-row{ margin-bottom:20px; }
+  .asym-row:last-child{ margin-bottom:0; }
+  .asym-row-head{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; }
+  .asym-row-head .name{ color:var(--text-muted); font-weight:600; }
+  .asym-row-head .val{ color:var(--off-white); font-weight:800; }
+  .asym-track{ height:16px; background:rgba(255,255,255,0.06); border-radius:20px; overflow:hidden; }
+  .asym-fill{ height:100%; border-radius:20px; background:linear-gradient(90deg,rgba(0,212,170,0.55),var(--teal)); width:0%; }
+  .asym-fill.basic{ background:linear-gradient(90deg,rgba(245,166,35,0.40),rgba(245,166,35,0.60)); }
+  .asym-note{ text-align:center; font-size:13.5px; color:var(--text-muted); margin-top:26px; line-height:1.65; padding-top:22px; border-top:1px solid rgba(0,212,170,0.12); }
+  .asym-note strong{ color:var(--off-white); font-weight:600; }
+
+  /* dual box for recognition vs disclosure */
+  .dual-box{ max-width:900px; margin:0 auto 40px; background:rgba(0,212,170,0.05); border:1px solid rgba(0,212,170,0.20); border-radius:14px; padding:32px 36px; }
+  .dual-box .db-label{ font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; text-align:center; }
+  .dual-rows{ display:flex; flex-direction:column; gap:12px; }
+  .dual-row{ display:flex; align-items:flex-start; gap:16px; }
+  .dr-tag{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:5px 12px; border-radius:20px; white-space:nowrap; flex-shrink:0; margin-top:1px; }
+  .dr-tag.rec{ background:rgba(0,212,170,0.15); color:var(--teal); }
+  .dr-tag.dis{ background:rgba(245,166,35,0.15); color:var(--amber); }
+  .dr-tag.ifrs{ background:rgba(247,247,242,0.08); color:var(--off-white); }
+  .dual-row p{ font-size:13.5px; color:var(--text-muted); line-height:1.7; }
+  .dual-row p strong{ color:var(--off-white); font-weight:600; }
+
+  /* before class */
+  .before-section{ background:var(--navy-mid); padding:80px 24px; }
+  .before-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:900px; margin:0 auto; }
+  @media(max-width:700px){ .before-grid{ grid-template-columns:1fr; } }
+  .bc-card{ background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:28px 22px; }
+  .bc-card .bc-num{ font-size:32px; font-weight:800; color:rgba(0,212,170,0.30); margin-bottom:8px; }
+  .bc-card p{ font-size:13.5px; color:var(--text-muted); line-height:1.7; }
+  .bc-card p strong{ color:var(--off-white); font-weight:600; }
+
+  /* closing */
+  .closing-section{ padding:120px 24px; text-align:center; background:var(--navy); position:relative; overflow:hidden; }
+  .closing-glow{ position:absolute; inset:0; background:radial-gradient(ellipse 500px 260px at 50% 60%,rgba(0,212,170,0.10),transparent); pointer-events:none; }
+  .closing-content{ position:relative; z-index:2; max-width:700px; margin:0 auto; }
+  .closing-content h2{ font-size:clamp(34px,5vw,56px); font-weight:800; line-height:1.1; margin-bottom:20px; }
+  .closing-content h2 span{ color:var(--teal); }
+  .closing-content p{ font-size:17px; color:var(--text-muted); margin-bottom:40px; line-height:1.65; }
+
+  /* footer */
+  footer{ background:var(--navy-mid); padding:32px 24px; text-align:center; font-size:13px; color:var(--text-muted); border-top:1px solid rgba(255,255,255,0.06); }
+  footer strong{ color:var(--teal); }
+
+  /* terminology note */
+  .term-note{ max-width:900px; margin:0 auto; background:rgba(245,166,35,0.06); border:1px solid rgba(245,166,35,0.18); border-radius:10px; padding:18px 24px; font-size:13px; color:var(--text-muted); line-height:1.7; }
+  .term-note strong{ color:var(--amber); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <a href="#hero">Home</a>
+  <a href="#mechanic">The Mechanic</a>
+  <a href="#intro">Introduction</a>
+  <a href="#motivation">Motivation &amp; H1–H3</a>
+  <a href="#conclusion">Conclusion</a>
+  <a href="#before-class">Before Class</a>
+</nav>
+
+<!-- ══════════════════════ HERO -->
+<section class="hero" id="hero">
+  <div class="hero-shapes-back">
+    <div class="shape-rect float-a"></div>
+    <div class="shape-circle float-b"></div>
+  </div>
+  <div class="hero-shapes-mid">
+    <div class="shape-diamond float-c"></div>
+    <div class="shape-dot"></div>
+    <div class="shape-ring float-b"></div>
+    <div class="shape-sq float-d"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Gaynor, McDaniel &amp; Yohn (2011) · Accounting, Organizations and Society</div>
+    <h1 class="hero-title">The Gain That Isn't <span>Good News</span></h1>
+    <p class="hero-subtitle">A reading guide to fair value accounting for liabilities: why a worsening credit rating produces a reported gain, why over 70% of CPAs get it backwards, and what SFRS(I) 9 did about it.</p>
+    <a href="#mechanic" class="btn-primary hero-cta">Start Reading</a>
+  </div>
+  <div class="scroll-indicator" onclick="document.getElementById('mechanic').scrollIntoView({behavior:'smooth'})">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00D4AA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ══════════════════════ THE MECHANIC (signature interactive element) -->
+<section class="mechanic-section" id="mechanic">
+  <div class="section-center">
+    <div class="section-label mech-label">Before You Read</div>
+    <h2 class="section-headline mech-headline">One Fact to Fix in Your Head First</h2>
+    <p class="section-sub mech-sub">The entire paper hinges on this single relationship. Toggle it below until it feels automatic, nothing else in the reading will make sense until it does.</p>
+
+    <div class="mechanic-wrap mech-anim">
+      <div class="flip-toggle">
+        <button class="flip-btn active" id="btn-worse" onclick="setFlip('worse')">Credit Risk Worsens</button>
+        <button class="flip-btn" id="btn-better" onclick="setFlip('better')">Credit Risk Improves</button>
+      </div>
+      <div class="flip-card worse" id="flip-card">
+        <div class="flip-row">
+          <div class="flip-cell">
+            <div class="fc-label">Own Credit Risk</div>
+            <div class="fc-value credit" id="credit-value">↓ Deteriorates</div>
+          </div>
+          <div class="flip-arrow">→</div>
+          <div class="flip-cell">
+            <div class="fc-label">Income Statement Effect</div>
+            <div class="fc-value income" id="income-value">Gain Recognized</div>
+          </div>
+        </div>
+        <div class="flip-explain" id="flip-explain">
+          As the company's own creditworthiness falls, the market value of its liabilities falls too, since the company could theoretically settle its debt for less than face value. A fall in what you owe is, mechanically, a gain. <strong>The company is doing worse, and the income statement says "gain."</strong>
+        </div>
+        <div style="text-align:center;"><span class="intuition-tag">Feels backwards: that's the whole paper</span></div>
+      </div>
+    </div>
+
+    <div class="three-cols">
+      <div class="pill-card">
+        <div class="icon">📉</div>
+        <h4>Why It Happens</h4>
+        <p>Fair value of a liability moves inversely with the issuer's credit standing, a core mechanic of discounting at a market rate that includes the issuer's own risk premium.</p>
+      </div>
+      <div class="pill-card">
+        <div class="icon">🤔</div>
+        <h4>Why It's Confusing</h4>
+        <p>Users associate "gain" with good news from a lifetime of exposure to typical gains. The label triggers the wrong prior, regardless of the correct underlying economics.</p>
+      </div>
+      <div class="pill-card">
+        <div class="icon">📘</div>
+        <h4>Why It Matters Now</h4>
+        <p>SFRS(I) 9 (para. 5.7.7 to 5.7.9) now routes the own-credit-risk portion of a fair value liability change to OCI rather than profit or loss, a direct response to this exact problem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ INTRODUCTION -->
+<section class="point-section dark" id="intro">
+  <div class="section-center">
+    <div class="section-label">Introduction · pp. 125–127 · ~5 min</div>
+    <h2 class="section-headline intro-headline">Setting Up the Puzzle</h2>
+    <p class="section-sub">The introduction does three jobs: shows you the dollar stakes, previews the three research questions, and gives away the headline results so you know what you're reading toward.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="sv">$3.6B</div>
+        <div class="sl">Largest single gain</div>
+        <p>Among 25 S&amp;P 500 firms in Q1 2008 that reported fair value gains while their own credit was actually <strong style="color:var(--off-white)">worsening</strong>.</p>
+      </div>
+      <div class="stat-card">
+        <div class="sv">~$3B</div>
+        <div class="sl">Citigroup, Q1 2009</div>
+        <p>Pre-tax gain booked directly because of Citigroup's own deteriorating creditworthiness, not operating performance.</p>
+      </div>
+      <div class="stat-card">
+        <div class="sv">184</div>
+        <div class="sl">Practicing CPAs</div>
+        <p>The study's participants: trained professionals, not novice investors. This is not a "financial literacy" problem alone.</p>
+      </div>
+    </div>
+
+    <div style="max-width:820px;margin:0 auto 20px;text-align:center;">
+      <h3 style="font-size:18px;font-weight:700;">Three Questions the Paper Asks</h3>
+    </div>
+    <div class="rq-list">
+      <div class="rq-item">
+        <div class="rq-num">1</div>
+        <p>Do financial-statement users <strong>misinterpret</strong> fair value gains and losses on liabilities as signals about the company's credit risk?</p>
+      </div>
+      <div class="rq-item">
+        <div class="rq-num">2</div>
+        <p>Do <strong>relational disclosures</strong> (footnotes that explicitly state the direction of the credit risk change) improve users' interpretations?</p>
+      </div>
+      <div class="rq-item">
+        <div class="rq-num">3</div>
+        <p>Are relational disclosures <strong>more effective for gains than for losses</strong>, or equally effective either way?</p>
+      </div>
+    </div>
+
+    <div style="max-width:900px;margin:0 auto 20px;display:flex;align-items:center;gap:14px;">
+      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--amber);">Reflective Questions</span>
+      <div style="flex:1;height:1px;background:rgba(245,166,35,0.20);"></div>
+    </div>
+    <div class="dq-grid">
+      <div class="dq-card">
+        <div class="dq-tag">💬 On the Choice of Participants</div>
+        <p>The authors deliberately chose <strong>practicing CPAs</strong>, not students or novice investors, as participants. Why does this choice make the paper's findings more concerning for standard-setters than if the participants had been undergraduates? What would a critic say to try to dismiss this finding anyway?</p>
+      </div>
+      <div class="dq-card">
+        <div class="dq-tag">💬 On the Real-World Stakes</div>
+        <p>The Q1 2008 example shows gains being reported by firms whose credit was <strong>actually deteriorating</strong>, right before the depths of the financial crisis. If an investor took those reported gains at face value, what decision might they have made, and how costly could that mistake have been?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ MOTIVATION & HYPOTHESES -->
+<section class="point-section mid" id="motivation">
+  <div class="section-center">
+    <div class="section-label">Motivation &amp; Hypotheses Development · pp. 127–129 · ~7 min</div>
+    <h2 class="section-headline mot-headline">Building the Argument, One Hypothesis at a Time</h2>
+    <p class="section-sub">This section is a chain of reasoning, not four separate topics. Each part sets up the next, so read it in order.</p>
+
+    <div class="sub-cards">
+      <div class="sub-card">
+        <div class="sc-eyebrow">2a · The Controversy</div>
+        <h4>Two Legitimate Sides</h4>
+        <p><strong>For recognition:</strong> if a company's credit risk rises, its liabilities really are worth less. In a liquidation, that shortfall falls on someone other than equity holders, so the gain reflects genuine economics.</p>
+        <p><strong>Against recognition:</strong> the IASB itself calls the resulting gain/loss "counter-intuitive" and "potentially misleading." The accounting may be correct, yet still confuse the very users it's meant to inform.</p>
+      </div>
+      <div class="sub-card">
+        <div class="sc-eyebrow">2b · Why Misinterpretation Is Predictable → H1</div>
+        <h4>Labels Carry Baggage</h4>
+        <p>Prior psychology and accounting research shows that presentation format and labeling shape interpretation. A "gain" carries a lifetime of prior association with good news, and users default to that prior unless given a strong reason not to.</p>
+      </div>
+      <div class="sub-card">
+        <div class="sc-eyebrow">2c · Disclosure as a Fix → H2</div>
+        <h4>Basic vs. Relational Disclosure</h4>
+        <p><strong>Basic disclosure</strong> (the norm in practice at the time): states the amount of the gain/loss and that it relates to credit risk, but never says which direction.</p>
+        <p><strong>Relational disclosure</strong>: explicitly states the direction, for example "this gain is due to a <em>decrease</em> in the Company's credit standing." Only this version targets the actual source of confusion.</p>
+      </div>
+      <div class="sub-card">
+        <div class="sc-eyebrow">2d · The Harder Prediction → H3</div>
+        <h4>Losing Good News Is Easier Than Gaining It</h4>
+        <p>Psychology research finds negative information is weighted more heavily and is harder to reverse than positive information. Downgrading a "gain = good news" impression should be easier than upgrading a "loss = bad news" impression to positive, so relational disclosures should work better for <strong>gains</strong> than for <strong>losses</strong>.</p>
+      </div>
+    </div>
+
+    <div style="max-width:820px;margin:0 auto 24px;text-align:center;">
+      <h3 style="font-size:18px;font-weight:700;">The Chain, Made Explicit</h3>
+    </div>
+    <div class="chain-wrap">
+      <div class="chain-step">
+        <div class="chain-badge">H1</div>
+        <div class="chain-text">
+          <h4>The Problem Exists</h4>
+          <p>Users will more often <strong>incorrectly</strong> identify the company with worsening (improving) credit risk as having lower (higher) risk.</p>
+        </div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-badge">H2</div>
+        <div class="chain-text">
+          <h4>A Fix Is Proposed</h4>
+          <p>Relational disclosures, stating the <strong>direction</strong> of the credit risk change, will improve users' ability to correctly interpret the gain or loss.</p>
+        </div>
+      </div>
+      <div class="chain-step">
+        <div class="chain-badge">H3</div>
+        <div class="chain-text">
+          <h4>The Fix Has Limits</h4>
+          <p>The improvement from relational disclosures will be <strong>greater for gains</strong> (bad news in disguise) <strong>than for losses</strong> (good news in disguise).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="asym-wrap chain-anim">
+      <div class="asym-label">Preview: What H3 Predicted, In Actual Numbers</div>
+      <div class="asym-sublabel">Out of every 100 CPAs, how many correctly picked the lower-risk company?</div>
+      <div class="asym-cols">
+        <div class="asym-col">
+          <div class="asym-col-head">When a Gain Was Reported</div>
+          <div class="asym-row">
+            <div class="asym-row-head"><span class="name">Basic Disclosure</span><span class="val">26 of 100</span></div>
+            <div class="asym-track"><div class="asym-fill basic" data-target="25.5"></div></div>
+          </div>
+          <div class="asym-row">
+            <div class="asym-row-head"><span class="name">Relational Disclosure</span><span class="val">60 of 100</span></div>
+            <div class="asym-track"><div class="asym-fill" data-target="60"></div></div>
+          </div>
+        </div>
+        <div class="asym-col">
+          <div class="asym-col-head">When a Loss Was Reported</div>
+          <div class="asym-row">
+            <div class="asym-row-head"><span class="name">Basic Disclosure</span><span class="val">29 of 100</span></div>
+            <div class="asym-track"><div class="asym-fill basic" data-target="28.9"></div></div>
+          </div>
+          <div class="asym-row">
+            <div class="asym-row-head"><span class="name">Relational Disclosure</span><span class="val">41 of 100</span></div>
+            <div class="asym-track"><div class="asym-fill" data-target="40.9"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="asym-note">Better disclosure helped in both cases. But look closely: when a <strong>gain</strong> was reported, correct answers more than doubled (26 to 60). When a <strong>loss</strong> was reported, correct answers barely rose (29 to 41). That gap is the asymmetry H3 predicted.</div>
+    </div>
+
+    <div style="max-width:900px;margin:0 auto 20px;display:flex;align-items:center;gap:14px;">
+      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--amber);">Reflective Questions</span>
+      <div style="flex:1;height:1px;background:rgba(245,166,35,0.20);"></div>
+    </div>
+    <div class="dq-grid" style="max-width:900px;margin:0 auto;">
+      <div class="dq-card" style="grid-column:1/-1;">
+        <div class="dq-tag">💬 On the Recognition Debate</div>
+        <p>Both sides of the credit-risk controversy have a legitimate point: the accounting <strong>can be economically correct and still be misleading in practice</strong>. Is it standard-setters' job to worry about how users interpret correct accounting, or only to get the economics right and leave interpretation to the user?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CONCLUSION -->
+<section class="point-section dark" id="conclusion">
+  <div class="section-center">
+    <div class="section-label">Conclusion · pp. 132–133 · ~3 min</div>
+    <h2 class="section-headline conc-headline">Disclosure Helped, But Was Not Enough</h2>
+    <p class="section-sub">The conclusion doesn't just summarize; it makes a specific recognition-versus-disclosure argument that anticipated where standard-setters ultimately went.</p>
+
+    <div class="passage-block">
+      <div class="p-label">The finding, restated plainly</div>
+      <blockquote>Even with the best disclosure tested, roughly half of participants still selected the higher-risk company as lower risk. Relational disclosures helped, but did not eliminate the misinterpretation.</blockquote>
+      <div class="p-ref">Gaynor, McDaniel &amp; Yohn (2011), Conclusion, p. 133</div>
+    </div>
+
+    <div class="dual-box">
+      <div class="db-label">The Authors' Argument: Recognition vs. Disclosure</div>
+      <div class="dual-rows">
+        <div class="dual-row">
+          <span class="dr-tag dis">Disclosure</span>
+          <p>Footnote disclosures, even well-designed ones, could not fully overcome the misleading effect of <strong>where</strong> the gain or loss was presented and <strong>how</strong> it was labeled on the primary income statement.</p>
+        </div>
+        <div class="dual-row">
+          <span class="dr-tag rec">Recognition</span>
+          <p>The authors argue this points toward a structural fix: <strong>excluding credit-risk gains and losses from the income statement</strong> altogether, since users weight recognized numbers more heavily than footnote text.</p>
+        </div>
+        <div class="dual-row">
+          <span class="dr-tag ifrs">SFRS(I) 9 Today</span>
+          <p>This is essentially what SFRS(I) 9 (para. 5.7.7) implemented: the own-credit-risk component of a fair value liability change is presented in <strong>OCI</strong>, not profit or loss, unless doing so creates or enlarges an accounting mismatch. This treatment applies only to liabilities designated as at fair value through profit or loss under the fair value option, not to liabilities that are mandatorily measured at fair value through profit or loss, such as most derivative liabilities.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:900px;margin:0 auto 20px;display:flex;align-items:center;gap:14px;">
+      <span style="font-size:13px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--amber);">Reflective Questions</span>
+      <div style="flex:1;height:1px;background:rgba(245,166,35,0.20);"></div>
+    </div>
+    <div class="dq-grid" style="max-width:900px;margin:0 auto;">
+      <div class="dq-card" style="grid-column:1/-1;">
+        <div class="dq-tag">💬 Discussion Question: Bringing It All Together</div>
+        <p>This paper found that footnotes alone did not fully fix the confusion. SFRS(I) 9 later moved this gain or loss out of profit or loss and into <strong>OCI</strong> instead, a part of the financial statements that most people pay less attention to. Do you think moving it to OCI actually solves the problem, or does it just put the same problem somewhere fewer people will notice? What would <strong>you</strong> have suggested instead?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ BEFORE CLASS -->
+<section class="before-section" id="before-class">
+  <div class="section-center">
+    <div class="section-label">Before Class</div>
+    <h2 class="section-headline">Three Things to Know Without Your Notes</h2>
+    <p class="section-sub" style="margin-bottom:40px;">If you can explain these clearly in your own words, you are ready for the discussion.</p>
+    <div class="before-grid">
+      <div class="bc-card">
+        <div class="bc-num">01</div>
+        <p>Why a fair value <strong>gain</strong> on a liability signals <strong>worsening</strong>, not improving, credit risk, explained mechanically, not just recited.</p>
+      </div>
+      <div class="bc-card">
+        <div class="bc-num">02</div>
+        <p>The logical chain <strong>H1 → H2 → H3</strong>: misinterpretation exists, relational disclosure helps, and the help is asymmetric, plus <em>why</em> psychology predicts that asymmetry.</p>
+      </div>
+      <div class="bc-card">
+        <div class="bc-num">03</div>
+        <p>How <strong>SFRS(I) 9's OCI treatment</strong> for own-credit-risk changes is a direct standard-setting response to the exact problem this paper documents.</p>
+      </div>
+    </div>
+    <div class="term-note" style="margin-top:40px;">
+      <strong>Terminology note.</strong> The paper refers to the U.S. GAAP "Fair Value Option" (SFAS No. 159). The Singapore equivalent is the fair value option for financial liabilities in <strong>SFRS(I) 9 para. 4.2.2</strong>, with the credit-risk presentation issue addressed specifically in <strong>SFRS(I) 9 para. 5.7.7 to 5.7.9</strong>. The behavioral finding and underlying accounting mechanics are the same across both standards.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CLOSING -->
+<section class="closing-section" id="closing">
+  <div class="closing-glow"></div>
+  <div class="closing-content">
+    <h2>If the Number Looks <span>Too Good, Ask Why</span></h2>
+    <p>Seventy percent of trained CPAs read a company's own bad news as good news. Come to class ready to explain why, and to say whether moving the item off the income statement was the right fix, or just a quieter place to hide the same confusion.</p>
+    <a href="#mechanic" class="btn-primary">Review the Mechanic</a>
+  </div>
+</section>
+
+<!-- ══════════════════════ FOOTER -->
+<footer>
+  Based on: <strong>Gaynor, L. M., McDaniel, L., &amp; Yohn, T. L. (2011).</strong> "Fair Value Accounting for Liabilities: The Role of Disclosures in Unraveling the Counterintuitive Income Statement Effect from Credit Risk Changes." <em>Accounting, Organizations and Society</em>, 36, pp. 125–134.
+  &nbsp;·&nbsp; Framework reference: <strong>SFRS(I) 9 Financial Instruments</strong>. Study guide for educational purposes only.
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.set([".hero-eyebrow",".hero-title",".hero-subtitle",".hero-cta",".scroll-indicator"],{ opacity:0, y:30 });
+const heroTl = gsap.timeline({ delay:0.2 });
+heroTl
+  .to(".hero-eyebrow",   { opacity:1, y:0, duration:0.6, ease:"power3.out" })
+  .to(".hero-title",     { opacity:1, y:0, duration:1.0, ease:"power3.out" }, "-=0.3")
+  .to(".hero-subtitle",  { opacity:1, y:0, duration:0.8, ease:"power2.out" }, "-=0.5")
+  .to(".hero-cta",       { opacity:1, y:0, duration:0.7, ease:"power2.out" }, "-=0.4")
+  .to(".scroll-indicator",{ opacity:1, y:0, duration:0.5, ease:"power2.out" }, "-=0.2");
+
+const hero = document.querySelector('.hero');
+hero.addEventListener('mousemove', (e) => {
+  const rect = hero.getBoundingClientRect();
+  const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+  const yPct = (e.clientY - rect.top)  / rect.height - 0.5;
+  gsap.to(".hero-shapes-back",{ duration:2.0, x:xPct*-45, y:yPct*-22, ease:"power1.out" });
+  gsap.to(".hero-shapes-mid", { duration:1.5, x:xPct*-22, y:yPct*-11, ease:"power1.out" });
+  gsap.to(".hero-content",    { duration:1.2, x:xPct*8,   y:yPct*5,   ease:"power1.out" });
+});
+
+gsap.from([".mech-label",".mech-headline",".mech-sub"],{
+  scrollTrigger:{ trigger:".mechanic-section", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, stagger:0.12, ease:"power3.out"
+});
+gsap.from(".mech-anim",{
+  scrollTrigger:{ trigger:".mechanic-section", start:"top 60%" },
+  opacity:0, y:30, duration:0.8, ease:"power2.out", delay:0.2
+});
+gsap.from(".three-cols .pill-card",{
+  scrollTrigger:{ trigger:".mechanic-section .three-cols", start:"top 82%" },
+  opacity:0, y:40, stagger:0.12, duration:0.7, ease:"power2.out"
+});
+
+gsap.from(".intro-headline",{
+  scrollTrigger:{ trigger:"#intro", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.from(".stat-card",{
+  scrollTrigger:{ trigger:".stat-grid", start:"top 78%" },
+  opacity:0, y:40, stagger:0.13, duration:0.7, ease:"power2.out"
+});
+gsap.from(".rq-item",{
+  scrollTrigger:{ trigger:".rq-list", start:"top 80%" },
+  opacity:0, x:-25, stagger:0.13, duration:0.65, ease:"power2.out"
+});
+
+gsap.from(".mot-headline",{
+  scrollTrigger:{ trigger:"#motivation", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.from(".sub-card",{
+  scrollTrigger:{ trigger:".sub-cards", start:"top 80%" },
+  opacity:0, y:30, stagger:0.13, duration:0.7, ease:"power2.out"
+});
+gsap.from(".chain-step",{
+  scrollTrigger:{ trigger:".chain-wrap", start:"top 80%" },
+  opacity:0, x:-20, stagger:0.16, duration:0.65, ease:"power2.out"
+});
+
+ScrollTrigger.create({
+  trigger:".asym-wrap",
+  start:"top 80%",
+  once:true,
+  onEnter:() => {
+    gsap.from(".asym-wrap",{ opacity:0, y:25, duration:0.7, ease:"power2.out" });
+    document.querySelectorAll(".asym-fill").forEach(el=>{
+      const target = el.getAttribute("data-target");
+      gsap.to(el,{ width: target+"%", duration:1.3, ease:"power2.out", delay:0.3 });
+    });
+  }
+});
+
+gsap.from(".conc-headline",{
+  scrollTrigger:{ trigger:"#conclusion", start:"top 72%" },
+  opacity:0, y:35, duration:0.8, ease:"power3.out"
+});
+gsap.from(".passage-block",{
+  scrollTrigger:{ trigger:"#conclusion .passage-block", start:"top 82%" },
+  opacity:0, x:-20, duration:0.8, ease:"power2.out"
+});
+gsap.from(".dual-box",{
+  scrollTrigger:{ trigger:".dual-box", start:"top 80%" },
+  opacity:0, y:25, duration:0.8, ease:"power2.out"
+});
+
+gsap.from(".bc-card",{
+  scrollTrigger:{ trigger:".before-grid", start:"top 78%" },
+  opacity:0, y:40, stagger:0.13, duration:0.7, ease:"power2.out"
+});
+gsap.from(".closing-content",{
+  scrollTrigger:{ trigger:".closing-section", start:"top 72%" },
+  opacity:0, y:45, duration:1.0, ease:"power3.out"
+});
+
+gsap.utils.toArray(".dq-grid").forEach(grid=>{
+  gsap.from(grid.querySelectorAll(".dq-card"),{
+    scrollTrigger:{ trigger:grid, start:"top 82%" },
+    opacity:0, y:30, stagger:0.12, duration:0.65, ease:"power2.out"
+  });
+});
+
+/* ── Flip toggle interaction ── */
+const flipData = {
+  worse: {
+    credit: "↓ Deteriorates",
+    income: "Gain Recognized",
+    explain: 'As the company\'s own creditworthiness falls, the market value of its liabilities falls too, since the company could theoretically settle its debt for less than face value. A fall in what you owe is, mechanically, a gain. <strong>The company is doing worse, and the income statement says "gain."</strong>'
+  },
+  better: {
+    credit: "↑ Improves",
+    income: "Loss Recognized",
+    explain: 'As the company\'s own creditworthiness improves, the market value of its liabilities rises, since it would now cost more to settle that debt at fair value. A rise in what you owe is, mechanically, a loss. <strong>The company is doing better, and the income statement says "loss."</strong>'
+  }
+};
+
+function setFlip(state){
+  const card = document.getElementById('flip-card');
+  const btnWorse = document.getElementById('btn-worse');
+  const btnBetter = document.getElementById('btn-better');
+  const creditEl = document.getElementById('credit-value');
+  const incomeEl = document.getElementById('income-value');
+  const explainEl = document.getElementById('flip-explain');
+
+  gsap.to([creditEl, incomeEl, explainEl], {
+    opacity: 0, duration: 0.18, onComplete: () => {
+      card.classList.remove('worse','better');
+      card.classList.add(state);
+      creditEl.textContent = flipData[state].credit;
+      incomeEl.textContent = flipData[state].income;
+      explainEl.innerHTML = flipData[state].explain;
+      gsap.to([creditEl, incomeEl, explainEl], { opacity: 1, duration: 0.28 });
+    }
+  });
+
+  btnWorse.classList.toggle('active', state === 'worse');
+  btnBetter.classList.toggle('active', state === 'better');
+}
+</script>
+</body>
+</html>
